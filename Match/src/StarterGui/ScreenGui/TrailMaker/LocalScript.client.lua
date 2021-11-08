@@ -1,0 +1,116 @@
+--local Main = require(game:GetService("ReplicatedStorage").Modules.Universal.Main)
+--Main.Initialize()
+--local Modules = Main.Modules
+
+--local TrailMaker = Main.ScreenGui:WaitForChild("TrailMaker")
+--local Toggle = Main.ScreenGui:WaitForChild("TrailsControl") --toggle on and off the ui
+--local TemplateButton = TrailMaker:WaitForChild("TemplateButton")
+--local SelectedBlock = nil
+--local ID = 1
+
+--Toggle.MouseButton1Click:Connect(function()
+--	TrailMaker.Visible = not TrailMaker.Visible
+--	if Main.ScreenGui.CameraControlUI.Visible then
+--		Main.ScreenGui.CameraControlUI.Visible = false
+--	end
+--end)
+
+--local function UpdateLabels(V1)
+--	if V1 then
+--		TrailMaker.Frame.CurrentPosition.Text = "Current Position:"
+--		TrailMaker.Frame.Selected.Text = "Currently Selected:"
+--	else
+--		local XPos = math.floor(SelectedBlock.Position.X)
+--		local YPos = math.floor(SelectedBlock.Position.Y)
+--		local ZPos = math.floor(SelectedBlock.Position.Z)
+--		local Position = XPos..","..YPos..","..ZPos
+--		TrailMaker.Frame.CurrentPosition.Text = "Current Position: "..Position
+--		TrailMaker.Frame.Selected.Text = "Currently Selected: "..SelectedBlock.Name		
+--	end
+--end
+
+--local ButtonFunctions = {
+--	["Create"] = function()
+--		--| Make Part
+--		local TrailBlock = workspace.TrailBlock:Clone()
+--		TrailBlock.Parent = workspace.Game.FX
+--		TrailBlock.Transparency = 0.5
+--		TrailBlock.Name = "NewTrailBlock"..ID
+--		TrailBlock.Position = Main.HRP.Position
+		
+--		SelectedBlock = TrailBlock
+		
+--		--| Updat Labels
+--		UpdateLabels()
+		
+--		--| Increase id for next part
+--		ID += 1
+		
+--		local Button = TemplateButton:Clone()
+--		Button.Name = TrailBlock.Name
+--		Button.Text = TrailBlock.Name
+--		Button.Parent = TrailMaker.ListOfTrails
+--		Button.Visible = true
+		
+--		Button.MouseButton1Click:Connect(function()
+--			SelectedBlock = workspace.Game.FX:FindFirstChild(Button.Name)
+--			UpdateLabels()
+--		end)
+--	end,
+--	["Delete"] = function()
+--		if SelectedBlock then
+--			TrailMaker.ListOfTrails:FindFirstChild(SelectedBlock.Name):Destroy()
+--			SelectedBlock:Destroy()
+--			SelectedBlock = nil
+--			UpdateLabels("nil")		
+--		end
+--	end,
+--	["Tween"] = function()
+--		if SelectedBlock then
+--			local Tween = string.split(TrailMaker.Frame.TextBox.EndPoint.Text,",") 
+--			local X = tonumber(Tween[1])
+--			local Y = tonumber(Tween[2])
+--			local Z = tonumber(Tween[3])
+--			local Time = tonumber(TrailMaker.Frame.TextBox.TweenSpeed.Text) or 0
+--			local Info = TweenInfo.new(Time,Enum.EasingStyle.Sine,Enum.EasingDirection.Out,0,false,0)
+--			Modules.TweenManager.MakeTween(Info,SelectedBlock,{Position = SelectedBlock.Position + Vector3.new(X,Y,Z)},false,true)
+--			UpdateLabels()
+--		end
+--	end,
+--	["MoveTo"] = function()
+--		if SelectedBlock then
+--			local Pos = string.split(TrailMaker.Frame.TextBox.NewPos.Text,",") 
+--			local X = tonumber(Pos[1])
+--			local Y = tonumber(Pos[2])
+--			local Z  = tonumber(Pos[3])
+--			SelectedBlock.Position = SelectedBlock.Position + Vector3.new(X,Y,Z)
+--			UpdateLabels()
+--		end
+--	end,
+--	["SetSpeed"] = function()
+--		if SelectedBlock then
+--			SelectedBlock.Trail.Lifetime = TrailMaker.Frame.TextBox.TrailSpeed.Text
+--		end
+--	end,
+--	["SetTexture"] = function()
+--		if SelectedBlock then
+--			SelectedBlock.Trail.Texture = TrailMaker.Frame.TextBox.Texture.Text
+--		end
+--	end,
+--	["SetColor"] = function()
+--		if SelectedBlock then
+--			local Color = string.split(TrailMaker.Frame.TextBox.TrailColor.Text,",") 
+--			local R = tonumber(Color[1])
+--			local G = tonumber(Color[2])
+--			local B  = tonumber(Color[3])
+--			SelectedBlock.Trail.Color = Color3.fromRGB(R,G,B)
+--		end
+--	end,
+--}
+
+--for _,Button in pairs(TrailMaker.Frame.Buttons:GetChildren()) do
+--	Button.MouseButton1Click:Connect(function()
+--		ButtonFunctions[Button.Name]()
+--	end)
+--end
+
